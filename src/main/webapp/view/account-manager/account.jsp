@@ -70,11 +70,12 @@
             <td><%=account.getStatus()%>
             </td>
             <td>
+                <a class="btn btn-info" role-id="<%=account.getId()%>"
+                   href="<%=uri%>/account?action=view&id=<%=account.getId()%>">View</a>
                 <a class="btn btn-primary" href="<%=uri%>/account?action=update&id=<%=account.getId()%>">Update</a>
                 <a class="btn btn-danger btn-xoa" onclick="return confirm('Are you sure you want to delete?');"
                    href="<%=uri%>/account?action=delete&id=<%=account.getId()%>">Delete</a>
-                <a class="btn btn-info" role-id="<%=account.getId()%>"
-                   href="<%=uri%>/account?action=view&id=<%=account.getId()%>">View</a>
+
             </td>
         </tr>
         <%}%>
