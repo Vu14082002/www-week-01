@@ -20,9 +20,8 @@ public class GrantAccess {
     @JoinColumn(name = "account_id",nullable = false)
     private Account account;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "is_grant", length = 1, nullable = false, columnDefinition = "ENUM('1', '0', '-1') DEFAULT '1'")
-    private IsGrant isGrant;
+    @Column(name = "is_grant", nullable = false, columnDefinition = "BIT(1) DEFAULT b'1'")
+    private Boolean isGrant;
 
     @Column(name = "note",columnDefinition = "VARCHAR(250)")
     private String note;
@@ -30,7 +29,7 @@ public class GrantAccess {
     public GrantAccess() {
     }
 
-    public GrantAccess(Role role, Account account, IsGrant isGrant, String note) {
+    public GrantAccess(Role role, Account account, Boolean isGrant, String note) {
         this.role = role;
         this.account = account;
         this.isGrant = isGrant;

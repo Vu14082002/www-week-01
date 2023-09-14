@@ -8,20 +8,26 @@ import jakarta.servlet.http.HttpServletResponse;
 import vn.edu.iuh.fit.enties.Account;
 import vn.edu.iuh.fit.enties.Status;
 import vn.edu.iuh.fit.service.AccountService;
+import vn.edu.iuh.fit.util.Connection;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @WebServlet(urlPatterns = {"/account"})
 public class AccountController extends HttpServlet {
-
+    private static String PATH_VIEW_ACCOUNT ="view/account-manager/account.jsp";
+    private static String PATH_VIEW_ACCOUNT_FORM ="view/account-manager/accountForm.jsp";
+    private static String PATH_VIEW_ADD_ACCOUNT_FORM ="view/account-manager/addAccountForm.jsp";
     private AccountService accountService;
     private List<Account> accountList;
 
     @Override
     public void init() throws ServletException {
+        Connection.getInstance();
         accountService = new AccountService();
+        accountList=new ArrayList<>();
         accountList = accountService.findAll();
     }
 
@@ -35,7 +41,7 @@ public class AccountController extends HttpServlet {
             case "update": {
                 Account account = accountService.findById(req.getParameter("id").toString());
                 req.setAttribute("account", account);
-                req.getRequestDispatcher("view/account-manager/accountForm.jsp").forward(req, resp);
+                req.getRequestDispatcher(PATH_VIEW_ACCOUNT_FORM).forward(req, resp);
                 break;
             }
             case "view": {
@@ -47,18 +53,20 @@ public class AccountController extends HttpServlet {
 
             }
             case "add": {
-                req.getRequestDispatcher("view/account-manager/addAccountForm.jsp").forward(req, resp);
+                req.getRequestDispatcher(PATH_VIEW_ADD_ACCOUNT_FORM).forward(req, resp);
                 break;
             }
             case "accounts": {
+                accountList=accountService.findAll();
                 req.getSession().setAttribute("accountList", accountList);
-                req.getRequestDispatcher("view/account-manager/account.jsp").forward(req, resp);
+                req.getRequestDispatcher(PATH_VIEW_ACCOUNT).forward(req, resp);
                 break;
             }
             default: {
                 resp.sendRedirect(req.getContextPath() + "/account?action=accounts");
             }
         }
+
     }
 
     @Override
@@ -84,6 +92,9 @@ public class AccountController extends HttpServlet {
 
     private void update(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Account account = getData(req, resp);
+
+        Account serviceById = accountService.findById(account.getId());
+        account.setGrantAccesses(serviceById.getGrantAccesses());
         boolean updated = accountService.update(account);
         if (!updated) {
             req.getSession().setAttribute("checkupdate", "false");

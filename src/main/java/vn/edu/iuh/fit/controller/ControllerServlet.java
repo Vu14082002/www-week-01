@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import vn.edu.iuh.fit.enties.Account;
 import vn.edu.iuh.fit.service.AccountService;
+import vn.edu.iuh.fit.util.Connection;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,38 +20,30 @@ public class ControllerServlet extends HttpServlet {
     List<Account> accountList;
     @Override
     public void init() throws ServletException {
+        Connection.getInstance().getEntityManagerFactory().createEntityManager();
         service = new AccountService();
         accountList =service.findAll();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (req.getParameter("action")==null){
+            req.getRequestDispatcher("index.jsp").forward(req, resp);
+        }
         String action = req.getParameter("action");
         switch (action) {
             case "login": {
                 req.getRequestDispatcher("login.jsp").forward(req, resp);
                 break;
             }
-            case "home":{
-                req.getRequestDispatcher("home.jsp").forward(req,resp);
-            }
             case "account":{
-                req.getSession().setAttribute("accountList",accountList);
                 resp.sendRedirect(req.getContextPath()+"/account?action=accounts");
                 break;
             }
-            case "update":{
-                req.getSession().setAttribute("id",req.getParameter("id"));
-                resp.sendRedirect(req.getContextPath()+"/account?action=update");
+            case "role":{
+                resp.sendRedirect(req.getContextPath()+"/role?action=roles");
                 break;
             }
-            case "delete:":{
-
-            }
-            case "view":{
-
-            }
-
             default:
                 resp.sendRedirect(req.getContextPath() + "/controllerservlet?action=login");
         }

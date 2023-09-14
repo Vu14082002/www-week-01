@@ -1,5 +1,6 @@
 <%@ page import="java.util.List" %>
-<%@ page import="vn.edu.iuh.fit.enties.Account" %><%--
+<%@ page import="vn.edu.iuh.fit.enties.Account" %>
+<%@ page import="vn.edu.iuh.fit.enties.Role" %><%--
   Created by IntelliJ IDEA.
   User: December
   Date: 09/11/2023
@@ -38,42 +39,38 @@
 <br>
 <div class="container">
     <div class="row">
-        <h1>List Account</h1>
+        <h1>List Role</h1>
     </div>
-    <p><a href="<%=request.getContextPath()%>/account?action=add" class="link-underline-primary">Add Account</a></p>
+    <p><a href="<%=request.getContextPath()%>/role?action=add" class="link-underline-primary">Add Role</a></p>
     <table class="table table-striped table-hover table-bordered">
         <thead>
         <tr>
-            <th>Account ID</th>
-            <th>Email</th>
-            <th>Full name</th>
-            <th>phone</th>
+            <th>Role ID</th>
+            <th>Role name</th>
+            <th>Description </th>
             <th>status</th>
             <th>action</th>
         </tr>
         </thead>
         <tbody>
         <%
-            List<Account> accounts = (List<Account>) session.getAttribute("accountList");
-            for (Account account : accounts) { %>
+            List<Role> roles = (List<Role>) session.getAttribute("roles");
+            for (Role role : roles) { %>
         <tr>
-            <td><%=account.getId()%>
+            <td><%=role.getId()%>
             </td>
-            <td><%=account.getEmail()%>
+            <td><%=role.getName()%>
             </td>
-            <td><%=account.getFullName()%>
+            <td><%=role.getDescription()%>
             </td>
-            <td><%=account.getPhone()%>
-            </td>
-            <td><%=account.getStatus()%>
+            <td><%=role.getStatus()%>
             </td>
             <td>
                 <a class="btn btn-info"
-                   href="<%=uri%>/account?action=view&id=<%=account.getId()%>">View</a>
-                <a class="btn btn-primary" href="<%=uri%>/account?action=update&id=<%=account.getId()%>">Update</a>
+                   href="<%=uri%>/role?action=view&id=<%=role.getId()%>">View</a>
+                <a class="btn btn-primary" href="<%=uri%>/role?action=update&id=<%=role.getId()%>">Update</a>
                 <a class="btn btn-danger btn-xoa" onclick="return confirm('Are you sure you want to delete?');"
-                   href="<%=uri%>/account?action=delete&id=<%=account.getId()%>">Delete</a>
-
+                   href="<%=uri%>/role?action=delete&id=<%=role.getId()%>">Delete</a>
             </td>
         </tr>
         <%}%>

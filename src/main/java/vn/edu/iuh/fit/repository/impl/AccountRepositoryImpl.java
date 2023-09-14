@@ -1,38 +1,48 @@
 package vn.edu.iuh.fit.repository.impl;
 
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
 import vn.edu.iuh.fit.enties.Account;
 import vn.edu.iuh.fit.repository.CRUDRepository;
 import vn.edu.iuh.fit.util.Connection;
 
 import java.util.List;
 
-public class AccountRepositoryImpl extends Generic<Account, String> {
-    private EntityManager manager;
+public class AccountRepositoryImpl implements CRUDRepository<Account, String> {
+    private final EntityManager  manager;
 
     public AccountRepositoryImpl() {
         manager = Connection.getInstance().getEntityManagerFactory().createEntityManager();
     }
 
     @Override
+    public Account findById(Class<Account> entityClass, String s) {
+        return manager.find(Account.class, s);
+    }
+
+    @Override
+    public List<Account> findAll(Class<Account> entityClass) {
+        return manager.createNativeQuery("SELECT  * from account", Account.class).getResultList();
+    }
+
+    @Override
+    public Account save(Account account) {
+        try {
+            manager.getTransaction().begin();
+            manager.persist(account);
+            manager.getTransaction().commit();
+            return account;
+        } catch (Exception e) {
+            e.printStackTrace();
+            manager.getTransaction().rollback();
+            return null;
+        }
+    }
+
     public Boolean update(Account account) {
         try {
             manager.getTransaction().begin();
-            String sql = "UPDATE `mydb`.`account`" +
-                    " SET `email` = ? , " +
-                    "`full_name` = ? , `password` = ? , `phone` = ? , " +
-                    "`status` = ? WHERE (`account_id` = ?);\n";
-            manager.createNativeQuery(sql, Account.class)
-                    .setParameter(1, account.getEmail())
-                    .setParameter(2, account.getFullName())
-                    .setParameter(3, account.getPassword())
-                    .setParameter(4, account.getPhone())
-                    .setParameter(5, account.getStatusValue())
-                    .setParameter(6, account.getId()).executeUpdate();
-
+            manager.merge(account);
             manager.getTransaction().commit();
             return true;
         } catch (Exception e) {
@@ -41,7 +51,6 @@ public class AccountRepositoryImpl extends Generic<Account, String> {
             return false;
         }
     }
-
     @Override
     public Boolean deleteById(Class<Account> entityClass, String s) {
         try {

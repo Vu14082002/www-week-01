@@ -1,4 +1,5 @@
-<%@ page import="vn.edu.iuh.fit.enties.Account" %><%--
+<%@ page import="vn.edu.iuh.fit.enties.Account" %>
+<%@ page import="vn.edu.iuh.fit.enties.Role" %><%--
   Created by IntelliJ IDEA.
   User: December
   Date: 09/12/2023
@@ -13,7 +14,7 @@
 </head>
 <body>
 <%
-    Account account = (Account) request.getAttribute("account");
+    Role role = (Role) request.getAttribute("account");
 %>
 <jsp:include page="../template/nav.jsp"/>
 <div class="containet my-5">
@@ -21,7 +22,7 @@
         <h1>Edit Account</h1>
         <div class="mb-3 ">
             <label class="form-label">Full name</label>
-            <input name="fullname" type="text" class="form-control" value="<%=account.getFullName()%>">
+            <input name="fullname" type="text" class="form-control" value="<%=role.getFullName()%>">
         </div>
         <div class="mb-3 ">
             <label class="form-label">Email</label>
@@ -35,11 +36,6 @@
             <label class="form-label">Phone</label>
             <input name="phone" type="text" class="form-control" value="<%=account.getPhone()%>">
         </div>
-<%--        <select class="form-select form-select-md mb-3" name="status" aria-label="Large select example">--%>
-<%--            <option value="1">ACTIVE</option>--%>
-<%--            <option value="0">DEACTIVE</option>--%>
-<%--            <option value="-1">DELETE</option>--%>
-<%--        </select>--%>
         <div class="mb-3 ">
             <label class="form-label">Status</label>
             <select class="form-select form-select-md mb-3" name="status" aria-label="Large select example">

@@ -9,13 +9,13 @@
 <html>
 <head>
     <title>Title</title>
-    <jsp:include page="../template/bootstraplink.jsp"/>
+    <jsp:include page="bootstraplink.jsp"/>
 </head>
 <body>
 <%
     Account account = (Account) request.getAttribute("account");
 %>
-<jsp:include page="../template/nav.jsp"/>
+<jsp:include page="nav.jsp"/>
 <div class="containet my-5">
     <form method="post" role="form" class="container" action="<%=request.getContextPath()%>/account">
         <h1>Edit Account</h1>
@@ -35,19 +35,11 @@
             <label class="form-label">Phone</label>
             <input name="phone" type="text" class="form-control" value="<%=account.getPhone()%>">
         </div>
-<%--        <select class="form-select form-select-md mb-3" name="status" aria-label="Large select example">--%>
-<%--            <option value="1">ACTIVE</option>--%>
-<%--            <option value="0">DEACTIVE</option>--%>
-<%--            <option value="-1">DELETE</option>--%>
-<%--        </select>--%>
-        <div class="mb-3 ">
-            <label class="form-label">Status</label>
-            <select class="form-select form-select-md mb-3" name="status" aria-label="Large select example">
-                <option value="1">ACTIVE</option>
-                <option value="0">DEACTIVE</option>
-                <option value="-1">DELETE</option>
-            </select>
-        </div>
+        <select class="form-select form-select-md mb-3" name="status" aria-label="Large select example">
+            <option value="1">ACTIVE</option>
+            <option value="0">DEACTIVE</option>
+            <option value="-1">DELETE</option>
+        </select>
         <input type="hidden" name="id" value="<%=account.getId()%>">
         <input type="hidden" name="action" value="update">
         <button type="submit" class="btn btn-primary">Submit</button>
