@@ -9,7 +9,7 @@ import vn.edu.iuh.fit.util.Connection;
 import java.util.List;
 
 public class AccountRepositoryImpl implements CRUDRepository<Account, String> {
-    private final EntityManager  manager;
+    private EntityManager manager;
 
     public AccountRepositoryImpl() {
         manager = Connection.getInstance().getEntityManagerFactory().createEntityManager();
@@ -31,6 +31,7 @@ public class AccountRepositoryImpl implements CRUDRepository<Account, String> {
             manager.getTransaction().begin();
             manager.persist(account);
             manager.getTransaction().commit();
+            manager.clear();
             return account;
         } catch (Exception e) {
             e.printStackTrace();
@@ -44,6 +45,7 @@ public class AccountRepositoryImpl implements CRUDRepository<Account, String> {
             manager.getTransaction().begin();
             manager.merge(account);
             manager.getTransaction().commit();
+            manager.clear();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -51,6 +53,7 @@ public class AccountRepositoryImpl implements CRUDRepository<Account, String> {
             return false;
         }
     }
+
     @Override
     public Boolean deleteById(Class<Account> entityClass, String s) {
         try {
@@ -58,11 +61,24 @@ public class AccountRepositoryImpl implements CRUDRepository<Account, String> {
             manager.getTransaction().begin();
             manager.createNativeQuery(sql, Account.class).setParameter(1, s).executeUpdate();
             manager.getTransaction().commit();
+            manager.clear();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             manager.getTransaction().rollback();
             return false;
+        }
+    }
+
+    public Account findByEmailOrId(String username, String password) {
+        try {
+            String sql = "SELECT * FROM `mydb`.`account`\n" +
+                    "WHERE (`account_id` = ? OR `email` = ? ) AND `password` =  ?  AND `status` = '1' ;\n";
+            Account account = (Account) manager.createNativeQuery(sql, Account.class).setParameter(1, username)
+                    .setParameter(2, username).setParameter(3, password).getSingleResult();
+            return account;
+        } catch (Exception e) {
+            return null;
         }
     }
 }

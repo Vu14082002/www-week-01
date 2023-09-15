@@ -14,6 +14,7 @@ import vn.edu.iuh.fit.util.Connection;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @WebServlet(urlPatterns = {"/role"})
 public class RoleController extends HttpServlet {
@@ -22,11 +23,10 @@ public class RoleController extends HttpServlet {
     private static String PATH_VIEW_ADD_ROLE_FORM = "view/role-manager/addRoleForm.jsp";
 
     private RoleService roleService;
-    private List<Role> roleList;
+    private static List<Role> roleList;
 
     @Override
     public void init() throws ServletException {
-        Connection.getInstance().getEntityManagerFactory();
         roleService = new RoleService();
         roleList = new ArrayList<>();
         roleList = roleService.findAll();
@@ -63,8 +63,6 @@ public class RoleController extends HttpServlet {
                 resp.sendRedirect(req.getContextPath() + "/role?action=roles");
             }
         }
-
-        super.doGet(req, resp);
     }
 
 
@@ -97,6 +95,7 @@ public class RoleController extends HttpServlet {
 
     private void update(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Role role = getData(req, resp);
+        role.setAccesses(roleService.findById(role.getId()).getAccesses());
         boolean updated = roleService.update(role);
         if (!updated) {
             req.getSession().setAttribute("checkupdate", "false");
@@ -108,27 +107,35 @@ public class RoleController extends HttpServlet {
     }
 
     private void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-    }
-    private Role getData(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
-        Role roleServiceById = roleService.findById(id);
-        roleServiceById.setDescription(req.getParameter("description"));
-        roleServiceById.setName(req.getParameter("roleName"));
-        roleServiceById.setStatusValue(Integer.parseInt(req.getParameter("status")));
-        roleServiceById.setStatus(Status.from(Integer.parseInt(req.getParameter("status"))));
-        return roleServiceById;
+        if (roleService.deleteById(id)) {
+            Role role = roleService.findById(id);
+            updateListRole(role);
+            resp.sendRedirect(req.getContextPath() + "/role?action=roles");
+        }
     }
-    private void updateListRole(Role role){
-        roleList.forEach(e->{
+
+    private Role getData(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Role role = new Role();
+        role.setId(req.getParameter("id"));
+        role.setDescription(req.getParameter("description"));
+        role.setName(req.getParameter("roleName"));
+        role.setStatusValue(Integer.parseInt(req.getParameter("status")));
+        role.setStatus(Status.from(Integer.parseInt(req.getParameter("status"))));
+        return role;
+    }
+
+    private void updateListRole(Role role) {
+        for (Role e : roleList) {
             if (e.getId().equalsIgnoreCase(role.getId())) {
-                e.setDescription(role.getDescription());
                 e.setName(role.getName());
                 e.setDescription(role.getDescription());
                 e.setStatus(role.getStatus());
                 e.setStatusValue(role.getStatusValue());
                 e.setAccesses(role.getAccesses());
+                break;
             }
-        });
+        }
+
     }
 }

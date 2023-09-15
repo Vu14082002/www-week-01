@@ -19,6 +19,7 @@ public class RoleRepositoryImpl implements CRUDRepository<Role, String> {
             manager.getTransaction().begin();
             manager.persist(role);
             manager.getTransaction().commit();
+            manager.clear();
             return role;
         }catch (Exception e){
             e.printStackTrace();
@@ -38,6 +39,7 @@ public class RoleRepositoryImpl implements CRUDRepository<Role, String> {
             manager.getTransaction().begin();
             manager.merge(role);
             manager.getTransaction().commit();
+            manager.clear();
             return true;
         }catch (Exception e){
             e.printStackTrace();
@@ -47,6 +49,17 @@ public class RoleRepositoryImpl implements CRUDRepository<Role, String> {
     }
     @Override
     public Boolean deleteById(Class<Role> entityClass, String s) {
-        return null;
+        String sql ="UPDATE `mydb`.`role` SET `status` = '-1' WHERE (`role_id` = ?);";
+        try{
+            manager.getTransaction().begin();
+            manager.createNativeQuery(sql,entityClass).setParameter(1,s).executeUpdate();
+            manager.getTransaction().commit();
+            manager.clear();
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            manager.getTransaction().rollback();
+            return false;
+        }
     }
 }

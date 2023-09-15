@@ -26,7 +26,7 @@ public class RoleService {
     public Role save(Role role){
         return roleRepository.save(role);
     }
-    public void deleteById(String id){
-        roleRepository.deleteById(Role.class,id);
+    public Boolean deleteById(String id){
+        return roleRepository.deleteById(Role.class,id);
     }
 }

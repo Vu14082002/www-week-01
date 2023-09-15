@@ -7,6 +7,9 @@
 </head>
 <body>
 <h1><%= "Hello World!" %></h1>
+<%
+    response.sendRedirect(request.getContextPath()+"controllerservlet?action=login");
+%>
 <br/>
 <a href="<%=request.getContextPath()%>/controllerservlet?action=login">Login</a>
 <a href="<%=request.getContextPath()%>/controllerservlet?action=account">Account Info</a>

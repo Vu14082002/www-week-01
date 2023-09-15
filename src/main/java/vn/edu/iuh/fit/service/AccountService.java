@@ -15,19 +15,28 @@ public class AccountService {
     public AccountService() {
         this.accountRepository = new AccountRepositoryImpl();
     }
-    public List<Account> findAll(){
+
+    public List<Account> findAll() {
         return accountRepository.findAll(Account.class);
     }
-    public Account findById(String id){
-         return accountRepository.findById(Account.class,id);
+
+    public Account findById(String id) {
+        return accountRepository.findById(Account.class, id);
     }
-    public boolean update(Account account){
+
+    public boolean update(Account account) {
         return accountRepository.update(account);
     }
-    public Account save(Account account){
+
+    public Account save(Account account) {
         return accountRepository.save(account);
     }
-    public void deleteById(String id){
-        accountRepository.deleteById(Account.class,id);
+
+    public Boolean deleteById(String id) {
+        return accountRepository.deleteById(Account.class, id);
+    }
+
+    public Account findByEmailOrId(String username, String password) {
+        return accountRepository.findByEmailOrId(username,password);
     }
 }

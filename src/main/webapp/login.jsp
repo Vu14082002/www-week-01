@@ -2,12 +2,23 @@
 <html>
 <head>
     <title>LOGIN PAGE</title>
+    <jsp:include page="./view/template/bootstraplink.jsp"/>
     <link rel="stylesheet" href="./static/css/login.css">
+<%--    <%if (session.getAttribute("status") == null) {%>--%>
+<%--    <link rel="stylesheet" href="./static/css/animation.css">--%>
+<%--    <%}%>--%>
 </head>
 <body>
 <div class="wrapper fadeInDown">
     <div id="formContent">
         <!-- Tabs Titles -->
+        <%if (session.getAttribute("status") != null) {%>
+        <div class=" my-4 alert alert-danger alert-dismissible fade show" role="alert">
+            <strong><%=session.getAttribute("status")%>
+            </strong>
+        </div>
+        <%}%>
+
         <h2 class="active"> Sign In </h2>
         <h2 class="inactive underlineHover">Sign Up </h2>
         <!-- Icon -->

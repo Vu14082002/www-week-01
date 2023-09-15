@@ -17,7 +17,6 @@ public class Log {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="employee_id_seq")
     @Column(name = "id", columnDefinition = "BIGINT(20)")
     private Long id;
 
@@ -25,7 +24,7 @@ public class Log {
     @Column(name = "account_id", columnDefinition = "VARCHAR(50)", nullable = false)
     private String accountId;
 
-    @Column(name = "login_time", columnDefinition = "datetime DEFAULT current_timestamp()", nullable = false)
+    @Column(name = "login_time", columnDefinition = "datetime DEFAULT current_timestap()", nullable = false)
     private LocalDateTime loginTime;
 
     @Column(name = "logout_time", columnDefinition = "datetime DEFAULT current_timestamp()", nullable = false)
@@ -35,6 +34,11 @@ public class Log {
     private String note;
 
     public Log() {
+    }
+
+    public Log(String accountId, String note) {
+        this.accountId = accountId;
+        this.note = note;
     }
 
     public Log(String accountId, LocalDateTime loginTime, LocalDateTime logoutTime, String note) {
@@ -50,5 +54,15 @@ public class Log {
         this.loginTime = loginTime;
         this.logoutTime = logoutTime;
         this.note = note;
+    }
+
+    @PrePersist
+    public void setPreSave(){
+        this.loginTime= LocalDateTime.now();
+        this.logoutTime=LocalDateTime.now();
+    }
+    @PreUpdate
+    public void setPreUpdate(){
+        this.logoutTime=LocalDateTime.now();
     }
 }

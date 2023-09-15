@@ -36,7 +36,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page"
-                       href="<%=uri%>/controllerservlet?action=login">Logout</a>
+                       href="<%=uri%>/controllerservlet?action=logout">Logout</a>
                 </li>
             </ul>
         </div>

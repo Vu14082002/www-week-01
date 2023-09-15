@@ -17,9 +17,9 @@ import java.util.stream.Collectors;
 
 @WebServlet(urlPatterns = {"/account"})
 public class AccountController extends HttpServlet {
-    private static String PATH_VIEW_ACCOUNT ="view/account-manager/account.jsp";
-    private static String PATH_VIEW_ACCOUNT_FORM ="view/account-manager/accountForm.jsp";
-    private static String PATH_VIEW_ADD_ACCOUNT_FORM ="view/account-manager/addAccountForm.jsp";
+    private static String PATH_VIEW_ACCOUNT = "view/account-manager/account.jsp";
+    private static String PATH_VIEW_ACCOUNT_FORM = "view/account-manager/accountForm.jsp";
+    private static String PATH_VIEW_ADD_ACCOUNT_FORM = "view/account-manager/addAccountForm.jsp";
     private AccountService accountService;
     private List<Account> accountList;
 
@@ -27,12 +27,13 @@ public class AccountController extends HttpServlet {
     public void init() throws ServletException {
         Connection.getInstance();
         accountService = new AccountService();
-        accountList=new ArrayList<>();
+        accountList = new ArrayList<>();
         accountList = accountService.findAll();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         if (req.getParameter("action") == null) {
             resp.sendRedirect(req.getContextPath() + "/account?action=accounts");
         }
@@ -57,7 +58,7 @@ public class AccountController extends HttpServlet {
                 break;
             }
             case "accounts": {
-                accountList=accountService.findAll();
+                accountList = accountService.findAll();
                 req.getSession().setAttribute("accountList", accountList);
                 req.getRequestDispatcher(PATH_VIEW_ACCOUNT).forward(req, resp);
                 break;
@@ -66,7 +67,6 @@ public class AccountController extends HttpServlet {
                 resp.sendRedirect(req.getContextPath() + "/account?action=accounts");
             }
         }
-
     }
 
     @Override
@@ -114,13 +114,13 @@ public class AccountController extends HttpServlet {
 
     private void deleteAccount(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
-        Account account = accountService.findById(id);
-        account.setStatusValue(-1);
-        account.setStatus(Status.from(account.getStatusValue()));
-        accountService.deleteById(id);
-        updateListAccount(account);
+       if( accountService.deleteById(id)){
+           Account account = accountService.findById(id);
+           updateListAccount(account);
+       }
         resp.sendRedirect(req.getContextPath() + "/account?action=accounts");
     }
+
     private Account getData(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String fullname = req.getParameter("fullname");
         String email = req.getParameter("email");
@@ -134,7 +134,7 @@ public class AccountController extends HttpServlet {
     }
 
     private void updateListAccount(Account account) {
-        accountList = accountList.stream().map(e -> {
+        for (Account e : accountList) {
             if (e.getId().equalsIgnoreCase(account.getId())) {
                 e.setEmail(account.getEmail());
                 e.setFullName(account.getFullName());
@@ -142,9 +142,9 @@ public class AccountController extends HttpServlet {
                 e.setPassword(account.getPassword());
                 e.setStatus(Status.from(account.getStatusValue()));
                 e.setStatusValue(account.getStatusValue());
+                break;
             }
-            return e;
-        }).collect(Collectors.toList());
+        }
     }
 
 

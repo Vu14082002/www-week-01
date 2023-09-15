@@ -5,17 +5,17 @@
              version="3.0">
   <persistence-unit name="week01_lab_NguyenVanVu_20002865">
     <properties>
-      <property name="jakarta.persistence.jdbc.driver"
-                value="org.mariadb.jdbc.Driver" />
-      <property name="jakarta.persistence.jdbc.dialect"
-                value="org.hibernate.dialect.MariaDBDialect" />
 <!--      <property name="jakarta.persistence.jdbc.driver"-->
-<!--                value="com.mysql.cj.jdbc.Driver" />-->
+<!--                value="org.mariadb.jdbc.Driver" />-->
 <!--      <property name="jakarta.persistence.jdbc.dialect"-->
-<!--                value="org.hibernate.dialect.MySQLDialect" />-->
+<!--                value="org.hibernate.dialect.MariaDBDialect" />-->
+      <property name="jakarta.persistence.jdbc.driver"
+                value="com.mysql.cj.jdbc.Driver" />
+      <property name="jakarta.persistence.jdbc.dialect"
+                value="org.hibernate.dialect.MySQLDialect" />
       <property name="jakarta.persistence.jdbc.url"
-                value="jdbc:mariadb://localhost:3307/mydb" />
-      <property name="jakarta.persistence.jdbc.user" value="root" />
+                value="jdbc:mysql://localhost:3306/mydb" />
+      <property name="jakarta.persistence.jdbc.user" value="member1" />
       <property name="jakarta.persistence.jdbc.password"
                 value="123456"/>
       <property name="hibernate.show_sql" value="true" />
