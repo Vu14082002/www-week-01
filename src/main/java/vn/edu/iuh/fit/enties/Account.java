@@ -36,7 +36,7 @@ public class Account {
     @Transient
     private Status status;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<GrantAccess> grantAccesses = new HashSet<>();
 
     public Account() {

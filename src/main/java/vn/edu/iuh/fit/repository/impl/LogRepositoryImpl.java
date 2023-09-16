@@ -35,7 +35,7 @@ public class LogRepositoryImpl implements CRUDRepository<Log, Long> {
             manager.getTransaction().begin();
             manager.persist(log);
             manager.getTransaction().commit();
-//            manager.clear();
+            manager.clear();
             return log;
         }catch (Exception e){
             e.printStackTrace();

@@ -12,7 +12,8 @@ public class AccountRepositoryImpl implements CRUDRepository<Account, String> {
     private EntityManager manager;
 
     public AccountRepositoryImpl() {
-        manager = Connection.getInstance().getEntityManagerFactory().createEntityManager();
+        Connection.getInstance().getEntityManagerFactory().getCache().evictAll();
+        manager=Connection.getInstance().getEntityManagerFactory().createEntityManager();
     }
 
     @Override
