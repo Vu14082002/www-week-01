@@ -39,4 +39,7 @@ public class AccountService {
     public Account findByEmailOrId(String username, String password) {
         return accountRepository.findByEmailOrId(username,password);
     }
+    public List<Account> findAllAccountNoRole() {
+        return accountRepository.findAllAccountNoRole(Account.class);
+    }
 }

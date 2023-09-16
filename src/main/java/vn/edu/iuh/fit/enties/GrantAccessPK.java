@@ -1,8 +1,14 @@
 package vn.edu.iuh.fit.enties;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serializable;
 import java.util.Objects;
 
+
+@Getter
+@Setter
 public class GrantAccessPK  implements Serializable {
     private String role;
     private String account;

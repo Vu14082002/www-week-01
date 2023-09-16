@@ -5,16 +5,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import vn.edu.iuh.fit.enties.Account;
 import vn.edu.iuh.fit.enties.Role;
 import vn.edu.iuh.fit.enties.Status;
 import vn.edu.iuh.fit.service.RoleService;
-import vn.edu.iuh.fit.util.Connection;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @WebServlet(urlPatterns = {"/role"})
 public class RoleController extends HttpServlet {

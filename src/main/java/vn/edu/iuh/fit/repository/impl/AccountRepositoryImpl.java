@@ -3,17 +3,20 @@ package vn.edu.iuh.fit.repository.impl;
 
 import jakarta.persistence.EntityManager;
 import vn.edu.iuh.fit.enties.Account;
+import vn.edu.iuh.fit.enties.Role;
 import vn.edu.iuh.fit.repository.CRUDRepository;
+import vn.edu.iuh.fit.service.RoleService;
 import vn.edu.iuh.fit.util.Connection;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AccountRepositoryImpl implements CRUDRepository<Account, String> {
     private EntityManager manager;
 
     public AccountRepositoryImpl() {
         Connection.getInstance().getEntityManagerFactory().getCache().evictAll();
-        manager=Connection.getInstance().getEntityManagerFactory().createEntityManager();
+        manager = Connection.getInstance().getEntityManagerFactory().createEntityManager();
     }
 
     @Override
@@ -24,6 +27,16 @@ public class AccountRepositoryImpl implements CRUDRepository<Account, String> {
     @Override
     public List<Account> findAll(Class<Account> entityClass) {
         return manager.createNativeQuery("SELECT  * from account", Account.class).getResultList();
+    }
+
+    public List<Account> findAllAccountNoRole(Class<Account> entityClass) {
+        List<Account> accountList = findAll(entityClass);
+        RoleService roleService = new RoleService();
+        List<Role> roleList = roleService.findAll();
+        return accountList.stream().filter(e ->
+//                e.getGrantAccesses().size()<roleList.size()
+                  e.getGrantAccesses().size() == 0
+        ).collect(Collectors.toList());
     }
 
     @Override

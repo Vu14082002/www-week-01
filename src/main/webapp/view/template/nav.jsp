@@ -31,7 +31,7 @@
                         Manager</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="<%=uri%>/controllerservetl?action=grant-access">Grant
+                    <a class="nav-link active" aria-current="page" href="<%=uri%>/controllerservlet?action=grant-accesses">Grant
                         Access Manager</a>
                 </li>
                 <li class="nav-item">

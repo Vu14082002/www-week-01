@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.net.http.HttpRequest;
 import java.util.logging.LogRecord;
 
-@WebFilter(urlPatterns = {"/account/*","/log/*","/role/*"})
+@WebFilter(urlPatterns = {"/account/*","/log/*","/role/*","/grant-access/*"})
 public class AuthenticationFilter implements Filter {
 
     @Override

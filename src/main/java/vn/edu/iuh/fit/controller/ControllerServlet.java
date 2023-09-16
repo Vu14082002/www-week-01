@@ -63,7 +63,7 @@ public class ControllerServlet extends HttpServlet {
                 resp.sendRedirect(req.getContextPath() + "/log?action=logs");
                 break;
             }
-            case "grant-access": {
+            case "grant-accesses": {
                 resp.sendRedirect(req.getContextPath() + "/grant-access?action=grant-accesses");
                 break;
             }
