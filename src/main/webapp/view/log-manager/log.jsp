@@ -41,7 +41,7 @@
     <div class="row">
         <h1>LIST LOG</h1>
     </div>
-    <p><a href="<%=request.getContextPath()%>/log?action=add" class="link-underline-primary">Add Log</a></p>
+<%--    <p><a href="<%=request.getContextPath()%>/log?action=add" class="link-underline-primary">Add Log</a></p>--%>
     <table class="table table-striped table-hover table-bordered">
         <thead>
         <tr>
@@ -71,8 +71,8 @@
                 <a class="btn btn-info"
                    href="<%=uri%>/log?action=view&id=<%=log.getId()%>">View</a>
                 <a class="btn btn-primary" href="<%=uri%>/log?action=update&id=<%=log.getId()%>">Update</a>
-                <a class="btn btn-danger btn-xoa" onclick="return confirm('Are you sure you want to delete?');"
-                   href="<%=uri%>/log?action=delete&id=<%=log.getId()%>">Delete</a>
+<%--                <a class="btn btn-danger btn-xoa" onclick="return confirm('Are you sure you want to delete?');"--%>
+<%--                   href="<%=uri%>/log?action=delete&id=<%=log.getId()%>">Delete</a>--%>
             </td>
         </tr>
         <%}%>

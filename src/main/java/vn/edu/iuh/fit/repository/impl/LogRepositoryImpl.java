@@ -14,9 +14,7 @@ public class LogRepositoryImpl implements CRUDRepository<Log, Long> {
 
     public LogRepositoryImpl() {
         manager = Connection.getInstance().getEntityManagerFactory().createEntityManager();
-
     }
-
 
     @Override
     public Log findById(Class<Log> entityClass, Long id) {
@@ -27,7 +25,6 @@ public class LogRepositoryImpl implements CRUDRepository<Log, Long> {
     public List<Log> findAll(Class<Log> entityClass) {
        return  manager.createNativeQuery("SELECT * from Log",Log.class).getResultList();
     }
-
 
     @Override
     public Log save(Log log) {
