@@ -37,17 +37,23 @@ public class ControllerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getParameter("action") == null) {
-            req.getRequestDispatcher("index.jsp").forward(req, resp);
+            req.getSession().setAttribute("role","user");
+            req.getRequestDispatcher("home.jsp").forward(req,resp);
         }
         String action = req.getParameter("action");
         switch (action) {
+            case "homepage":{
+                req.getRequestDispatcher("home.jsp").forward(req,resp);
+            }
+            case "admin":{
+                req.getRequestDispatcher("home.jsp").forward(req,resp);
+            }
             case "login": {
                 req.getRequestDispatcher("login.jsp").forward(req, resp);
                 break;
             }
             case "logout": {
                 req.getSession().invalidate();
-
                 resp.sendRedirect(req.getContextPath() + "/controllerservlet?action=login");
                 break;
             }
@@ -95,7 +101,8 @@ public class ControllerServlet extends HttpServlet {
             req.getSession().invalidate();
             HttpSession session = req.getSession(true);
             session.setAttribute("userId", "admin role manager ");
-            resp.sendRedirect(req.getContextPath() + "/account?action=accounts");
+//            resp.sendRedirect(req.getContextPath() + "/account?action=accounts");
+            resp.sendRedirect(req.getContextPath() + "/controllerservlet?action=homepage");
         } else {
             Account accountLogin = accountService.findByEmailOrId(username, password);
             if (accountLogin != null) {
@@ -116,9 +123,11 @@ public class ControllerServlet extends HttpServlet {
         logService.save(log);
         String roleId = account.getGrantAccesses().iterator().next().getRole().getId();
         if (roleId.equalsIgnoreCase("admin")) {
-            resp.sendRedirect(req.getContextPath() + "/account?action=accounts");
+            req.getSession().setAttribute("role","admin");
+            resp.sendRedirect(req.getContextPath() + "/controllerservlet?action=admin");
         } else if (roleId.equalsIgnoreCase("user")) {
-            resp.sendRedirect(req.getContextPath() + "/controllerservlet?action=login");
+            req.getSession().setAttribute("role","user");
+            resp.sendRedirect(req.getContextPath() + "/controllerservlet?action=homepage");
         } else {
             resp.sendRedirect(req.getContextPath() + "/controllerservlet?action=login");
         }
