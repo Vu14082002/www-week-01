@@ -1,6 +1,5 @@
 package vn.edu.iuh.fit.controller;
 
-import jakarta.ejb.Local;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,18 +9,20 @@ import jakarta.servlet.http.HttpSession;
 import vn.edu.iuh.fit.enties.Account;
 import vn.edu.iuh.fit.enties.GrantAccess;
 import vn.edu.iuh.fit.enties.Log;
+import vn.edu.iuh.fit.enties.Status;
 import vn.edu.iuh.fit.service.AccountService;
+import vn.edu.iuh.fit.service.GrantAccessService;
 import vn.edu.iuh.fit.service.LogService;
 import vn.edu.iuh.fit.util.Connection;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 
 @WebServlet(urlPatterns = {"/ControllerServlet", "/controllerservlet"})
 public class ControllerServlet extends HttpServlet {
     private AccountService accountService;
+    private GrantAccessService grantAccessService;
     private LogService logService;
     List<Account> accountList;
 
@@ -30,6 +31,7 @@ public class ControllerServlet extends HttpServlet {
         Connection.getInstance().getEntityManagerFactory().createEntityManager();
         accountService = new AccountService();
         logService = new LogService();
+        grantAccessService = new GrantAccessService();
         accountList = accountService.findAll();
 
     }
@@ -37,16 +39,16 @@ public class ControllerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getParameter("action") == null) {
-            req.getSession().setAttribute("role","user");
-            req.getRequestDispatcher("home.jsp").forward(req,resp);
+            req.getSession().setAttribute("role", "user");
+            req.getRequestDispatcher("home.jsp").forward(req, resp);
         }
         String action = req.getParameter("action");
         switch (action) {
-            case "homepage":{
-                req.getRequestDispatcher("home.jsp").forward(req,resp);
+            case "homepage": {
+                req.getRequestDispatcher("home.jsp").forward(req, resp);
             }
-            case "admin":{
-                req.getRequestDispatcher("home.jsp").forward(req,resp);
+            case "admin": {
+                req.getRequestDispatcher("home.jsp").forward(req, resp);
             }
             case "login": {
                 req.getRequestDispatcher("login.jsp").forward(req, resp);
@@ -97,20 +99,12 @@ public class ControllerServlet extends HttpServlet {
     private void authentication(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
-        if (username.equalsIgnoreCase("admin") && password.equalsIgnoreCase("admin")) {
-            req.getSession().invalidate();
-            HttpSession session = req.getSession(true);
-            session.setAttribute("userId", "admin role manager ");
-//            resp.sendRedirect(req.getContextPath() + "/account?action=accounts");
-            resp.sendRedirect(req.getContextPath() + "/controllerservlet?action=homepage");
+        Account accountLogin = accountService.findByEmailOrId(username, password);
+        if (accountLogin != null) {
+            authorization(accountLogin, req, resp);
         } else {
-            Account accountLogin = accountService.findByEmailOrId(username, password);
-            if (accountLogin != null) {
-                authorization(accountLogin, req, resp);
-            } else {
-                req.getSession().setAttribute("status", "user name or password wrong");
-                resp.sendRedirect(req.getContextPath() + "/controllerservlet?action=login");
-            }
+            req.getSession().setAttribute("status", "user name or password wrong");
+            resp.sendRedirect(req.getContextPath() + "/controllerservlet?action=login");
         }
 
     }
@@ -119,18 +113,27 @@ public class ControllerServlet extends HttpServlet {
         req.getSession().invalidate();
         HttpSession session = req.getSession(true);
         session.setAttribute("userId", account.getId());
-        Log log = new Log(account.getId(), "");
-        logService.save(log);
-        String roleId = account.getGrantAccesses().iterator().next().getRole().getId();
-        if (roleId.equalsIgnoreCase("admin")) {
-            req.getSession().setAttribute("role","admin");
-            resp.sendRedirect(req.getContextPath() + "/controllerservlet?action=admin");
-        } else if (roleId.equalsIgnoreCase("user")) {
-            req.getSession().setAttribute("role","user");
-            resp.sendRedirect(req.getContextPath() + "/controllerservlet?action=homepage");
-        } else {
+        System.out.println("-------------------------");
+        System.out.println(account.getGrantAccesses().size());
+        if (account.getGrantAccesses().size() < 1) {
             resp.sendRedirect(req.getContextPath() + "/controllerservlet?action=login");
+        } else {
+            Log log = new Log(account.getId(), "");
+            String roleId = account.getGrantAccesses().iterator().next().getRole().getId();
+            if (roleId.equalsIgnoreCase("admin")
+            ) {
+                logService.save(log);
+                req.getSession().setAttribute("role", "admin");
+                resp.sendRedirect(req.getContextPath() + "/controllerservlet?action=account");
+            } else if (roleId.equalsIgnoreCase("user")) {
+                logService.save(log);
+                req.getSession().setAttribute("role", "user");
+                resp.sendRedirect(req.getContextPath() + "/controllerservlet?action=homepage");
+            } else {
+                resp.sendRedirect(req.getContextPath() + "/controllerservlet?action=login");
+            }
         }
+
     }
 }
 

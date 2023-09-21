@@ -17,7 +17,7 @@
 %>
 <jsp:include page="../template/nav.jsp"/>
 <div class="containet my-5">
-    <form method="post" role="form" class="container" action="<%=request.getContextPath()%>/account">
+    <form method="post" role="form" class="container my-5" action="<%=request.getContextPath()%>/account">
         <h1>Edit Account</h1>
         <div class="mb-3 ">
             <label class="form-label">Full name</label>
@@ -50,7 +50,7 @@
         </div>
         <input type="hidden" name="id" value="<%=account.getId()%>">
         <input type="hidden" name="action" value="update">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary my-2">Submit</button>
     </form>
 </div>
 </body>

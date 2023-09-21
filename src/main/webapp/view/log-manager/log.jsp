@@ -18,26 +18,7 @@
     String uri = request.getContextPath();
 %>
 <jsp:include page="../template/nav.jsp"/>
-<%
-    if (session.getAttribute("checkupdate") != null &&
-            session.getAttribute("checkupdate").toString().equalsIgnoreCase("success")) { %>
-<div class="alert alert-success alert-dismissible">
-    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    <strong>Update Success!</strong>
-</div>
-<%
-} else if (session.getAttribute("checkupdate") != null &&
-        session.getAttribute("checkupdate").toString().equalsIgnoreCase("fail")) {
-%>
-<div class="alert alert-danger alert-dismissible">
-    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    <strong>Waring! something wrong</strong>
-</div>
-<%}%>
-<br>
-<br>
-<br>
-<div class="container">
+<div class="container my-5">
     <div class="row">
         <h1>LIST LOG</h1>
     </div>
@@ -68,11 +49,7 @@
             <td><%=log.getNote()%>
             </td>
             <td>
-                <a class="btn btn-info"
-                   href="<%=uri%>/log?action=view&id=<%=log.getId()%>">View</a>
                 <a class="btn btn-primary" href="<%=uri%>/log?action=update&id=<%=log.getId()%>">Update</a>
-<%--                <a class="btn btn-danger btn-xoa" onclick="return confirm('Are you sure you want to delete?');"--%>
-<%--                   href="<%=uri%>/log?action=delete&id=<%=log.getId()%>">Delete</a>--%>
             </td>
         </tr>
         <%}%>

@@ -15,7 +15,7 @@
 
 <jsp:include page="../template/nav.jsp"/>
 <div class="containet my-5">
-    <form method="post" role="form" class="container" action="<%=request.getContextPath()%>/account">
+    <form method="post" role="form" class="container my-5" action="<%=request.getContextPath()%>/account">
         <h1>Add Account</h1>
         <div class="mb-3 ">
             <label class="form-label">Account id</label>
@@ -35,15 +35,19 @@
         </div>
         <div class="mb-3">
             <label class="form-label">Phone</label>
-            <input name="phone" type="text" class="form-control" >
+            <input name="phone" type="text" class="form-control">
         </div>
-        <select class="form-select form-select-md mb-3" name="status" aria-label="Large select example">
-            <option value="1">ACTIVE</option>
-            <option value="0">DEACTIVE</option>
-            <option value="-1">DELETE</option>
-        </select>
+        <div class="mb-3">
+            <label class="form-label">Status</label>
+            <select class="form-select form-select-md mb-3" name="status" aria-label="Large select example">
+                <option value="1">ACTIVE</option>
+                <option value="0">DEACTIVE</option>
+                <option value="-1">DELETE</option>
+            </select>
+        </div>
+
         <input type="hidden" name="action" value="add">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary my-2">Submit</button>
     </form>
 </div>
 </body>

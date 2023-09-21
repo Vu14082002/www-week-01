@@ -37,7 +37,7 @@
 <br>
 <br>
 <div class="container">
-    <div class="row">
+    <div class="row mb-3 ">
         <h1>List Account</h1>
     </div>
     <p><a href="<%=request.getContextPath()%>/account?action=add" class="link-underline-primary">Add Account</a></p>

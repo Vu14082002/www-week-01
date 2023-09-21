@@ -18,6 +18,7 @@ public class RoleController extends HttpServlet {
     private static String PATH_VIEW_ROLE = "view/role-manager/role.jsp";
     private static String PATH_VIEW_ROLE_FORM = "view/role-manager/roleForm.jsp";
     private static String PATH_VIEW_ADD_ROLE_FORM = "view/role-manager/addRoleForm.jsp";
+    private static String PATH_VIEW__ROLE_DETAIL = "view/role-manager/roleDetail.jsp";
 
     private RoleService roleService;
     private static List<Role> roleList;
@@ -49,6 +50,9 @@ public class RoleController extends HttpServlet {
                 break;
             }
             case "view": {
+                Role role = roleService.findById(req.getParameter("id").toString());
+                req.setAttribute("role", role);
+                req.getRequestDispatcher(PATH_VIEW__ROLE_DETAIL).forward(req, resp);
                 break;
             }
             case "delete": {

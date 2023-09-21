@@ -34,11 +34,8 @@
     <strong>Waring! something wrong</strong>
 </div>
 <%}%>
-<br>
-<br>
-<br>
 <div class="container">
-    <div class="row">
+    <div class="row mt-4 mb-3">
         <h1>List GRANT-ACCESS</h1>
     </div>
     <p><a href="<%=request.getContextPath()%>/grant-access?action=add" class="link-underline-primary">Add
@@ -69,11 +66,10 @@
             <td><%=grantAccess.getNote()%>
             </td>
             <td>
-                <a class="btn btn-info"
-                   href="<%=uri%>/grant-access?action=view&id=<%=id%>">View</a>
-                <a class="btn btn-primary" href="<%=uri%>/grant-access?action=update&id=<%=id%>">Update</a>
+                <a class="btn btn-primary"
+                   href="<%=uri%>/grant-access?action=update&account=<%=grantAccess.getAccount().getId()%>&role=<%=grantAccess.getRole().getId()%>">Update</a>
                 <a class="btn btn-danger btn-xoa" onclick="return confirm('Are you sure you want to delete?');"
-                   href="<%=uri%>/grant-access?action=delete&id=<%=id%>">Delete</a>
+                   href="<%=uri%>/grant-access?action=delete&account=<%=grantAccess.getAccount().getId()%>&role=<%=grantAccess.getRole().getId()%>">Delete</a>
             </td>
         </tr>
         <%}%>

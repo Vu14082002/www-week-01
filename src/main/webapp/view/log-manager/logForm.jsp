@@ -33,12 +33,12 @@
             <input readonly name="logout" type="text" class="form-control" value="<%=log.getLogoutTime()%>">
         </div>
         <div class="form-floating">
-            <textarea class="form-control" placeholder="Leave a note here" name="note" style="height: 100px"></textarea>
+            <textarea class="form-control" placeholder="Leave a note here" name="note" style="height: 100px"><%=log.getNote()%></textarea>
             <label>Note</label>
         </div>
         <input type="hidden" name="id" value="<%=log.getId()%>">
         <input type="hidden" name="action" value="update">
-        <button type="submit" class="btn btn-primary my-3">Submit</button>
+        <button type="submit" class="btn btn-primary my-2">Submit</button>
     </form>
 </div>
 </body>

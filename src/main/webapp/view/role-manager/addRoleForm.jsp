@@ -14,8 +14,8 @@
 <body>
 
 <jsp:include page="../template/nav.jsp"/>
-<div class="containet my-5">
-    <form method="post" role="form" class="container" action="<%=request.getContextPath()%>/role">
+<div class="container ">
+    <form method="post" role="form" class="container my-5 " action="<%=request.getContextPath()%>/role">
         <h1>Add Role</h1>
         <div class="mb-3 ">
             <label class="form-label">Role id</label>
@@ -35,7 +35,7 @@
             <option value="-1">DELETE</option>
         </select>
         <input type="hidden" name="action" value="add">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary my-2">Submit</button>
     </form>
 </div>
 </body>

@@ -16,8 +16,8 @@ public class GrantAccessService {
         grandAccessRepository = new GrandAccessRepositoryImpl();
     }
 
-    public GrantAccess findById(GrantAccessPK grantAccessPK){
-        return grandAccessRepository.findById(GrantAccess.class, grantAccessPK);
+    public GrantAccess findById(String account ,String role){
+        return grandAccessRepository.findById(account,role);
     }
     public List<GrantAccess> findAll( ){
         return grandAccessRepository.findAll(GrantAccess.class);
@@ -30,8 +30,8 @@ public class GrantAccessService {
     public boolean update(GrantAccess grantAccess) {
         return grandAccessRepository.update(grantAccess);
     }
-    public boolean delete (GrantAccessPK grantAccessPK){
-       return grandAccessRepository.deleteById(GrantAccess.class,grantAccessPK);
+    public boolean delete (String accountId, String roleId){
+       return grandAccessRepository.deleteById(accountId, roleId);
     }
 
 

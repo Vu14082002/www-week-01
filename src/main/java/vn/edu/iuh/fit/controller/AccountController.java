@@ -20,6 +20,8 @@ public class AccountController extends HttpServlet {
     private static String PATH_VIEW_ACCOUNT = "view/account-manager/account.jsp";
     private static String PATH_VIEW_ACCOUNT_FORM = "view/account-manager/accountForm.jsp";
     private static String PATH_VIEW_ADD_ACCOUNT_FORM = "view/account-manager/addAccountForm.jsp";
+    private static String PATH_VIEW_ACCOUNT_DETAIL = "view/account-manager/accountDetail.jsp";
+
     private AccountService accountService;
     private List<Account> accountList;
 
@@ -39,13 +41,16 @@ public class AccountController extends HttpServlet {
         }
         String action = req.getParameter("action");
         switch (action) {
+            case "view": {
+                Account account = accountService.findById(req.getParameter("id").toString());
+                req.setAttribute("account", account);
+                req.getRequestDispatcher(PATH_VIEW_ACCOUNT_DETAIL).forward(req, resp);
+                break;
+            }
             case "update": {
                 Account account = accountService.findById(req.getParameter("id").toString());
                 req.setAttribute("account", account);
                 req.getRequestDispatcher(PATH_VIEW_ACCOUNT_FORM).forward(req, resp);
-                break;
-            }
-            case "view": {
                 break;
             }
             case "delete": {
@@ -114,10 +119,10 @@ public class AccountController extends HttpServlet {
 
     private void deleteAccount(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
-       if( accountService.deleteById(id)){
-           Account account = accountService.findById(id);
-           updateListAccount(account);
-       }
+        if (accountService.deleteById(id)) {
+            Account account = accountService.findById(id);
+            updateListAccount(account);
+        }
         resp.sendRedirect(req.getContextPath() + "/account?action=accounts");
     }
 

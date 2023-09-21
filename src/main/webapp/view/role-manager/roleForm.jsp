@@ -39,7 +39,7 @@
 
         <input type="hidden" name="id" value="<%=role.getId()%>">
         <input type="hidden" name="action" value="update">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary my-2">Submit</button>
     </form>
 </div>
 </body>

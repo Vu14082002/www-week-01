@@ -24,7 +24,6 @@
 <div class="containet my-5">
     <form method="post" role="form" class="container" action="<%=request.getContextPath()%>/grant-access">
         <h1>Add Grant-Access</h1>
-
         <div class="mb-3 ">
             <label class="form-label">Account id</label>
             <select class="form-select form-select-md mb-3"  name="accountId" aria-label="Large select example">
@@ -54,7 +53,7 @@
             <label>Note</label>
         </div>
         <input type="hidden" name="action" value="add">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn my-2 btn-primary">Submit</button>
     </form>
 </div>
 </body>
