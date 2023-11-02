@@ -1,6 +1,5 @@
 package vn.edu.iuh.fit.enties;
 
-import com.mysql.cj.jdbc.Driver;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
